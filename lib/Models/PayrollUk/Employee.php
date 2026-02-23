@@ -75,7 +75,8 @@ class Employee implements ModelInterface, ArrayAccess
         'ni_category' => '\XeroAPI\XeroPHP\Models\PayrollUk\NICategoryLetter',
         'ni_categories' => '\XeroAPI\XeroPHP\Models\PayrollUk\NICategory[]',
         'national_insurance_number' => 'string',
-        'is_off_payroll_worker' => 'bool'
+        'is_off_payroll_worker' => 'bool',
+        'contracts' => '\XeroAPI\XeroPHP\Models\PayrollUk\Contracts[]'
     ];
 
     /**
@@ -101,7 +102,8 @@ class Employee implements ModelInterface, ArrayAccess
         'ni_category' => null,
         'ni_categories' => null,
         'national_insurance_number' => null,
-        'is_off_payroll_worker' => null
+        'is_off_payroll_worker' => null,
+        'contracts' => null
     ];
 
     /**
@@ -148,7 +150,8 @@ class Employee implements ModelInterface, ArrayAccess
         'ni_category' => 'niCategory',
         'ni_categories' => 'niCategories',
         'national_insurance_number' => 'nationalInsuranceNumber',
-        'is_off_payroll_worker' => 'isOffPayrollWorker'
+        'is_off_payroll_worker' => 'isOffPayrollWorker',
+        'contracts' => 'contracts'
     ];
 
     /**
@@ -174,7 +177,8 @@ class Employee implements ModelInterface, ArrayAccess
         'ni_category' => 'setNiCategory',
         'ni_categories' => 'setNiCategories',
         'national_insurance_number' => 'setNationalInsuranceNumber',
-        'is_off_payroll_worker' => 'setIsOffPayrollWorker'
+        'is_off_payroll_worker' => 'setIsOffPayrollWorker',
+        'contracts' => 'setContracts'
     ];
 
     /**
@@ -200,7 +204,8 @@ class Employee implements ModelInterface, ArrayAccess
         'ni_category' => 'getNiCategory',
         'ni_categories' => 'getNiCategories',
         'national_insurance_number' => 'getNationalInsuranceNumber',
-        'is_off_payroll_worker' => 'getIsOffPayrollWorker'
+        'is_off_payroll_worker' => 'getIsOffPayrollWorker',
+        'contracts' => 'getContracts'
     ];
 
     /**
@@ -296,6 +301,7 @@ class Employee implements ModelInterface, ArrayAccess
         $this->container['ni_categories'] = isset($data['ni_categories']) ? $data['ni_categories'] : null;
         $this->container['national_insurance_number'] = isset($data['national_insurance_number']) ? $data['national_insurance_number'] : null;
         $this->container['is_off_payroll_worker'] = isset($data['is_off_payroll_worker']) ? $data['is_off_payroll_worker'] : null;
+        $this->container['contracts'] = isset($data['contracts']) ? $data['contracts'] : null;
     }
 
     /**
@@ -307,6 +313,24 @@ class Employee implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
+        if ($this->container['title'] === null) {
+            $invalidProperties[] = "'title' can't be null";
+        }
+        if ($this->container['first_name'] === null) {
+            $invalidProperties[] = "'first_name' can't be null";
+        }
+        if ($this->container['last_name'] === null) {
+            $invalidProperties[] = "'last_name' can't be null";
+        }
+        if ($this->container['date_of_birth'] === null) {
+            $invalidProperties[] = "'date_of_birth' can't be null";
+        }
+        if ($this->container['address'] === null) {
+            $invalidProperties[] = "'address' can't be null";
+        }
+        if ($this->container['gender'] === null) {
+            $invalidProperties[] = "'gender' can't be null";
+        }
         $allowedValues = $this->getGenderAllowableValues();
         if (!is_null($this->container['gender']) && !in_array($this->container['gender'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -360,7 +384,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Gets title
      *
-     * @return string|null
+     * @return string
      */
     public function getTitle()
     {
@@ -370,7 +394,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Sets title
      *
-     * @param string|null $title Title of the employee
+     * @param string $title Title of the employee
      *
      * @return $this
      */
@@ -387,7 +411,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Gets first_name
      *
-     * @return string|null
+     * @return string
      */
     public function getFirstName()
     {
@@ -397,7 +421,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Sets first_name
      *
-     * @param string|null $first_name First name of employee
+     * @param string $first_name First name of employee
      *
      * @return $this
      */
@@ -414,7 +438,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Gets last_name
      *
-     * @return string|null
+     * @return string
      */
     public function getLastName()
     {
@@ -424,7 +448,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Sets last_name
      *
-     * @param string|null $last_name Last name of employee
+     * @param string $last_name Last name of employee
      *
      * @return $this
      */
@@ -441,7 +465,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Gets date_of_birth
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
     public function getDateOfBirth()
     {
@@ -451,7 +475,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Sets date_of_birth
      *
-     * @param \DateTime|null $date_of_birth Date of birth of the employee (YYYY-MM-DD)
+     * @param \DateTime $date_of_birth Date of birth of the employee (YYYY-MM-DD)
      *
      * @return $this
      */
@@ -468,7 +492,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Gets address
      *
-     * @return \XeroAPI\XeroPHP\Models\PayrollUk\Address|null
+     * @return \XeroAPI\XeroPHP\Models\PayrollUk\Address
      */
     public function getAddress()
     {
@@ -478,7 +502,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Sets address
      *
-     * @param \XeroAPI\XeroPHP\Models\PayrollUk\Address|null $address address
+     * @param \XeroAPI\XeroPHP\Models\PayrollUk\Address $address address
      *
      * @return $this
      */
@@ -522,7 +546,7 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Gets gender
      *
-     * @return string|null
+     * @return string
      */
     public function getGender()
     {
@@ -532,14 +556,14 @@ class Employee implements ModelInterface, ArrayAccess
     /**
      * Sets gender
      *
-     * @param string|null $gender The employee’s gender
+     * @param string $gender The employee’s gender
      *
      * @return $this
      */
     public function setGender($gender)
     {
         $allowedValues = $this->getGenderAllowableValues();
-        if (!is_null($gender) && !in_array($gender, $allowedValues, true)) {
+        if (!in_array($gender, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value for 'gender', must be one of '%s'",
@@ -819,6 +843,33 @@ class Employee implements ModelInterface, ArrayAccess
     {
 
         $this->container['is_off_payroll_worker'] = $is_off_payroll_worker;
+
+        return $this;
+    }
+
+
+
+    /**
+     * Gets contracts
+     *
+     * @return \XeroAPI\XeroPHP\Models\PayrollUk\Contracts[]|null
+     */
+    public function getContracts()
+    {
+        return $this->container['contracts'];
+    }
+
+    /**
+     * Sets contracts
+     *
+     * @param \XeroAPI\XeroPHP\Models\PayrollUk\Contracts[]|null $contracts The employee's contracts
+     *
+     * @return $this
+     */
+    public function setContracts($contracts)
+    {
+
+        $this->container['contracts'] = $contracts;
 
         return $this;
     }
